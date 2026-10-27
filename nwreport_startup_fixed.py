@@ -33,10 +33,12 @@ APP_EXE = (
 
 APP_PROCESS_NAME = "NWReport_DBWB.exe"
 WINDOW_TITLE_PART = "NWReport_DBWB"
-INITIAL_WAIT_SECONDS = 10
-WINDOW_WAIT_SECONDS = 10
+INITIAL_WAIT_SECONDS = 30
+WINDOW_WAIT_SECONDS = 30
 RETRY_WAIT_SECONDS = 10
 MAX_START_ATTEMPTS = 3
+TARGET_DESKTOP_NUMBER = 2
+DESKTOP_SWITCH_WAIT_SECONDS = 10
 
 LOG_FILE = Path(__file__).with_name("nwreport_startup.log")
 pyautogui.FAILSAFE = True
@@ -69,6 +71,33 @@ def relaunch_as_admin() -> None:
     )
     if result <= 32:
         raise RuntimeError(f"Administrator elevation failed (code {result}).")
+
+
+def ensure_target_desktop() -> None:
+    """Create Desktop 2 when needed, switch to it, and allow it to settle."""
+    try:
+        # Import only after elevation: pyvda connects to Windows' virtual
+        # desktop service during import.
+        from pyvda import VirtualDesktop, get_virtual_desktops
+
+        desktops = get_virtual_desktops()
+        while len(desktops) < TARGET_DESKTOP_NUMBER:
+            VirtualDesktop.create()
+            desktops = get_virtual_desktops()
+            logging.info(
+                "Created virtual desktop %d.",
+                len(desktops),
+            )
+
+        target = VirtualDesktop(TARGET_DESKTOP_NUMBER)
+        target.go()
+        logging.info("Switched to virtual desktop %d.", TARGET_DESKTOP_NUMBER)
+        time.sleep(DESKTOP_SWITCH_WAIT_SECONDS)
+    except Exception as exc:
+        logging.exception("Virtual desktop setup failed.")
+        raise RuntimeError(
+            f"Could not create or switch to Desktop {TARGET_DESKTOP_NUMBER}."
+        ) from exc
 
 
 def process_is_running() -> bool:
@@ -156,6 +185,7 @@ def main() -> None:
         return
 
     logging.info("Automation started.")
+    ensure_target_desktop()
     exe = Path(APP_EXE)
     if not exe.is_file():
         raise FileNotFoundError(
@@ -212,8 +242,9 @@ def main() -> None:
                 attempt,
             )
         else:
-            logging.info("Completed all %d configured Start attempts.",
-                         MAX_START_ATTEMPTS)
+            logging.info(
+                "Completed all %d configured Start attempts.", MAX_START_ATTEMPTS
+            )
 
     logging.info("Automation finished.")
 

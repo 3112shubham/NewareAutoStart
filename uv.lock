@@ -3,6 +3,15 @@ revision = 3
 requires-python = ">=3.13"
 
 [[package]]
+name = "comtypes"
+version = "1.4.17"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/0e/ff/c7836bd0d78fc615281016f154f514e9d523d7cb9ab9e8b4d344adc5f5e7/comtypes-1.4.17.tar.gz", hash = "sha256:3d9c1e92ad8daf7600d371e76ee16161a627a5fb70c3144f6e52e78af6034363", size = 262743, upload-time = "2026-09-21T08:08:07.687Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/89/9c/d0bc1fb69ad22a04bdc01dd9b5613a2ebc4d02ba1ec24b02127dc93791ba/comtypes-1.4.17-py3-none-any.whl", hash = "sha256:4e0a221dde2c589b82977bed802efd71cd5eb67a380347b732e02735e597f586", size = 298743, upload-time = "2026-09-21T08:08:06.461Z" },
+]
+
+[[package]]
 name = "mouseinfo"
 version = "0.1.3"
 source = { registry = "https://pypi.org/simple" }
@@ -21,6 +30,7 @@ dependencies = [
     { name = "pillow" },
     { name = "pyautogui" },
     { name = "pygetwindow" },
+    { name = "pyvda" },
 ]
 
 [package.metadata]
@@ -28,6 +38,7 @@ requires-dist = [
     { name = "pillow", specifier = ">=13.0.0" },
     { name = "pyautogui", specifier = ">=0.9.54" },
     { name = "pygetwindow", specifier = ">=0.0.9" },
+    { name = "pyvda", specifier = ">=0.6.0" },
 ]
 
 [[package]]
@@ -207,6 +218,18 @@ name = "pytweening"
 version = "1.2.0"
 source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/79/0c/c16bc93ac2755bac0066a8ecbd2a2931a1735a6fffd99a2b9681c7e83e90/pytweening-1.2.0.tar.gz", hash = "sha256:243318b7736698066c5f362ec5c2b6434ecf4297c3c8e7caa8abfe6af4cac71b", size = 171241, upload-time = "2024-02-20T03:37:56.809Z" }
+
+[[package]]
+name = "pyvda"
+version = "0.6.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "comtypes" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/25/cf/41d44f1df748dcc64f8ab27979485c3f5629dec56fa9c0674559e944ba30/pyvda-0.6.0.tar.gz", hash = "sha256:0e840a84458a946812803c7353e161fafeae9776b76c4e2d358af5dc24df9229", size = 16398, upload-time = "2026-07-14T19:29:56.633Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/49/d5/cc7da1165af8a74faca47317578936e3d5ab6720c0726a3754867d94533a/pyvda-0.6.0-py3-none-any.whl", hash = "sha256:c62e702044f8f8cbc0cdcaaedf5e0fc5c7b908d94153b681c9ed62634cc5031a", size = 16890, upload-time = "2026-07-14T19:29:55.588Z" },
+]
 
 [[package]]
 name = "rubicon-objc"
