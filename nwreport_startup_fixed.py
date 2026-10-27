@@ -33,12 +33,12 @@ APP_EXE = (
 
 APP_PROCESS_NAME = "NWReport_DBWB.exe"
 WINDOW_TITLE_PART = "NWReport_DBWB"
-INITIAL_WAIT_SECONDS = 30
+INITIAL_WAIT_SECONDS = 20
 WINDOW_WAIT_SECONDS = 30
 RETRY_WAIT_SECONDS = 10
 MAX_START_ATTEMPTS = 3
 TARGET_DESKTOP_NUMBER = 2
-DESKTOP_SWITCH_WAIT_SECONDS = 10
+DESKTOP_SWITCH_WAIT_SECONDS = 5
 
 LOG_FILE = Path(__file__).with_name("nwreport_startup.log")
 pyautogui.FAILSAFE = True
@@ -160,7 +160,18 @@ def click_start(window) -> None:
         window.restore()
         time.sleep(1)
 
-    window.activate()
+    try:
+        window.activate()
+    except gw.PyGetWindowException as exc:
+        # pygetwindow can report this exception even when Windows returns
+        # error code 0 (success).  The target window was just discovered, so
+        # continue with its verified coordinates instead of abandoning the run.
+        logging.warning(
+            "Could not explicitly activate '%s'; continuing with the Start "
+            "click: %s",
+            window.title,
+            exc,
+        )
     time.sleep(1)
 
     # In this application's bottom action bar, Start is one third of the
