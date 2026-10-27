@@ -1,0 +1,17 @@
+# Bundled NWReport DBWB application: ignore every file and subdirectory.
+/NWReport_DBWB_V1.0.0_20250303_64/
+
+# uv environment and the workspace-local cache used for dependency resolution.
+/.venv/
+/.uv-cache/
+
+# Legacy virtual environment retained during the uv migration.
+/venv/
+
+# Runtime diagnostics produced by the startup automation.
+/nwreport_startup.log
+/nwreport_after_attempt_*.png
+
+# Python bytecode created when checking or running the automation.
+__pycache__/
+*.py[cod]
